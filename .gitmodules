@@ -10,3 +10,15 @@
 [submodule "jhonson"]
 	path = jhonson
 	url = https://github.com/HashLoad/jhonson.git
+[submodule "horse-logger"]
+	path = horse-logger
+	url = https://github.com/HashLoad/horse-logger.git
+[submodule "horse-utils-clientip"]
+	path = horse-utils-clientip
+	url = https://github.com/dliocode/horse-utils-clientip.git
+[submodule "horse-logger-provider-console"]
+	path = horse-logger-provider-console
+	url = https://github.com/HashLoad/horse-logger-provider-console.git
+[submodule "horse-logger-provider-logfile"]
+	path = horse-logger-provider-logfile
+	url = https://github.com/HashLoad/horse-logger-provider-logfile.git

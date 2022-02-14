@@ -5,6 +5,9 @@
 
 uses
   Horse,
+  Horse.Logger, // It's necessary to use the unit
+  Horse.Logger.Provider.LogFile, // It's necessary to use the unit
+  Horse.Logger.Provider.Console, // It's necessary to use the unit
   System.JSON.Serializers,
   System.SysUtils,
   Sqs.Client in 'Sqs.Client.pas',
@@ -33,7 +36,16 @@ procedure test;
 var
   lCli: TsqsClient;
   lSerializer: TJsonSerializer;
+  LLogFileConfig: THorseLoggerLogFileConfig;
 begin
+  LLogFileConfig := THorseLoggerLogFileConfig.New //
+    .SetLogFormat('${request_clientip} [${time}] ${response_status}') //
+    .SetDir('.\Log');
+  // Here you will define the provider that will be used.
+  THorseLoggerManager.RegisterProvider(THorseLoggerProviderLogFile.New());
+  THorseLoggerManager.RegisterProvider(THorseLoggerProviderConsole.New());
+  // It's necessary to add the middleware in the Horse:
+  THorse.Use(THorseLoggerManager.HorseCallback);
   // need vpn access
   lCli := TsqsClient.Create('http://192.168.78.100:8095');
   lSerializer := TJsonSerializer.Create;
