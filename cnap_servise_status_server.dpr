@@ -33,17 +33,21 @@ type
   end;
 
 procedure test;
+const
+  LOG_FMT = '${request_clientip} [${time}] ${response_status}' +
+    ' "${request_method} ${request_path_info} ${request_query} ${request_version}"' +
+    ' ${response_status} ${response_content_length} ${request_user_agent}';
 var
   lCli: TsqsClient;
   lSerializer: TJsonSerializer;
   LLogFileConfig: THorseLoggerLogFileConfig;
+  LLogConsoleConfig: THorseLoggerConsoleConfig;
 begin
-  LLogFileConfig := THorseLoggerLogFileConfig.New //
-    .SetLogFormat('${request_clientip} [${time}] ${response_status}') //
-    .SetDir('.\Log');
+  LLogFileConfig := THorseLoggerLogFileConfig.New.SetLogFormat(LOG_FMT).SetDir('.\Log');
+  LLogConsoleConfig := THorseLoggerConsoleConfig.New.SetLogFormat(LOG_FMT);
   // Here you will define the provider that will be used.
-  THorseLoggerManager.RegisterProvider(THorseLoggerProviderLogFile.New());
-  THorseLoggerManager.RegisterProvider(THorseLoggerProviderConsole.New());
+  THorseLoggerManager.RegisterProvider(THorseLoggerProviderLogFile.New(LLogFileConfig));
+  THorseLoggerManager.RegisterProvider(THorseLoggerProviderConsole.New(LLogConsoleConfig));
   // It's necessary to add the middleware in the Horse:
   THorse.Use(THorseLoggerManager.HorseCallback);
   // need vpn access
@@ -61,7 +65,6 @@ begin
         lReturn: TsqsResponse<TsqsSearchResult>;
       begin
         lReturn := TsqsResponse<TsqsSearchResult>.Create;
-
         try
           try
             lCaseNumber := Req.Query.AsString('case_number'); // 6599/18-07/22
@@ -81,7 +84,7 @@ begin
             end;
           end;
           LResult := lSerializer.Serialize < TsqsResponse < TsqsSearchResult >> (lReturn);
-          Res.Send(LResult);
+          Res.Status(lReturn.ErrorCode).Send(LResult);
         finally
           lReturn.Free;
         end;
