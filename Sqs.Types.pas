@@ -2,6 +2,9 @@
 
 interface
 
+uses
+  System.JSON.Serializers;
+
 type
   TsqsAccount = record
   private
@@ -14,10 +17,16 @@ type
 
   TsqsSearchResult = record
   private
+    [JsonName('Number')]
     FNumber: string;
+    [JsonName('Service')]
     FService: string;
+    [JsonName('Client')]
+    [JsonIgnore]
     FClient: string;
+    [JsonName('Status')]
     FStatus: string;
+    [JsonName('LastUpdate')]
     FLastUpdate: string;
   public
     property Number: string read FNumber write FNumber;

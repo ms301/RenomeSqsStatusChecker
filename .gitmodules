@@ -4,3 +4,9 @@
 [submodule "Delphi-Parsing-Tools"]
 	path = Delphi-Parsing-Tools
 	url = https://github.com/ms301/Delphi-Parsing-Tools.git
+[submodule "horse"]
+	path = horse
+	url = https://github.com/HashLoad/horse.git
+[submodule "jhonson"]
+	path = jhonson
+	url = https://github.com/HashLoad/jhonson.git

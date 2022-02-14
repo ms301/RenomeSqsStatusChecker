@@ -81,9 +81,14 @@ begin
   lReq.AddParam(TcaParameter.Create('search[case_number]', ARegNumber, '', TcaParameterType.GetOrPost, true));
   lRes := FCloud.Execute(lReq);
   AData := lRes.HttpResponse.ContentAsString();
-  LPars := ParsingTool(AData) //
-    .FirstAnd('<tr class="request_status_working">', '</tr>') //
-    .AllAnd('<td>', '</td>');
+  try
+    LPars := ParsingTool(AData) //
+      .FirstAnd('<tr class="request_status_working">', '</tr>') //
+      .AllAnd('<td>', '</td>');
+  except
+    exit;
+  end;
+
   Result.Number := LPars[0].First('>', '</a>').Trim;
   Result.Service := LPars[1].First('>', '</a>').Trim;
   Result.Client := LPars[2].First('>', '</a>').Trim;
