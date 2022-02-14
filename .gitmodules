@@ -1,3 +1,6 @@
 [submodule "CloudAPI"]
 	path = CloudAPI
 	url = https://github.com/ms301/CloudAPI.git
+[submodule "Delphi-Parsing-Tools"]
+	path = Delphi-Parsing-Tools
+	url = https://github.com/ms301/Delphi-Parsing-Tools.git
