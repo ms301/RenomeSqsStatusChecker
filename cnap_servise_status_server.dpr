@@ -67,7 +67,7 @@ begin
         lReturn := TsqsResponse<TsqsSearchResult>.Create;
         try
           try
-            lCaseNumber := Req.Query.AsString('case_number'); // 6599/18-07/22
+            lCaseNumber := Req.Query['case_number']; // 6599/18-07/22
             lReturn.FData := lCli.getStatus(lCaseNumber);
             if lReturn.Data.Number.IsEmpty then
             begin

@@ -83,7 +83,7 @@ begin
   AData := lRes.HttpResponse.ContentAsString();
   try
     LPars := ParsingTool(AData) //
-      .FirstAnd('<tr class="request_status_working">', '</tr>') //
+      .FirstAnd('<tr class="request_status_', '</tr>') //
       .AllAnd('<td>', '</td>');
   except
     exit;
